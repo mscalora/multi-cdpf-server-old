@@ -99,7 +99,38 @@
 		header ("HTTP/1.0 404 Not Found");
 		exit;
 	}
-	
+
+    if (isset($_REQUEST['rotate'])) {
+
+        $right = (isset($_REQUEST['dir']) && $_REQUEST['dir']=='left') ? false : true;
+        $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : false;
+
+        $dataPath = "data/$name";
+        $validPath = preg_match('/^\d+\/[^\/]+\.(jpeg|jpg|gif|png)$/i',$name)==1 && is_file($dataPath);
+
+        if ($validPath && $name!==false && is_file($dataPath)) {
+            $undoFile = "undo/${name}_ROT" . ($right ? "R" : "L") . date('Ymd\THisT',filemtime($dataPath));
+            if (!is_dir(dirname($undoFile))) {
+                mkdir(dirname($undoFile),0777, true);
+            }
+            rename($dataPath, $undoFile);
+            $cmd = "jpegtran -v -v -v -rotate " . ($right?90:270) . " -outfile " . escapeshellarg($dataPath) . " " . escapeshellarg($undoFile) . " 2>&1";
+            $out = exec($cmd);
+            if (is_file($dataPath)) touch($dataPath);
+            echo filemtime($dataPath);
+            if ($debug) {
+                echo "";
+                echo $cmd;
+                echo "";
+                echo $out;
+            }
+        } else {
+            header("HTTP/1.0 403 Forbidden");
+            exit;
+        }
+        exit;
+    }
+
 	$message = "";
 	
 	if (isset($_REQUEST['submit']) && isset($_FILES["the-file"])) {
@@ -134,9 +165,18 @@
 
 
 	if (isset($_REQUEST['delete-image'])) {
-		$fileName = $_REQUEST['delete-image'];
-		if (in_array($fileName,$images,true)) {
-			unlink($dataDir.$fileName);
+		$name = $_REQUEST['delete-image'];
+        $dataPath = "data/$name";
+        $validPath = preg_match('/^\d+\/[^\/]+\.(jpeg|jpg|gif|png)$/i',$name)==1 && is_file($dataPath);
+
+		if ($validPath) {
+            $undoFile = "undo/${name}_DEL" . date('Ymd\THisT',filemtime($dataPath));
+            $thumbFile = "thumb/${name}";
+            if (!is_dir(dirname($undoFile))) {
+                mkdir(dirname($undoFile),0777, true);
+            }
+            rename($dataPath, $undoFile);
+            @unlink($thumbFile);
 			header('Location: /');
 			exit;
 		}

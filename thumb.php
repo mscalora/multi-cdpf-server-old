@@ -180,24 +180,28 @@
 
 	//========================================
     
-    $name = isset($_REQUEST['name']) ? basename($_REQUEST['name']) : false;
+    $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : false;
     $thumb = "thumb/$name";
-    $file = "sync/$name";
+    $file = "data/$name";
     
-    if ($name===false || !is_file($file) || !preg_match('/^[^\/]+\.(jpg|jpeg|png|gif)$/i',$name,$r) || preg_match('/\//i',$name)) {
+    if ($name===false || !is_file($file) || !preg_match('/^(\d+\/)?[^\/]+\.(jpg|jpeg|png|gif)$/i',$name,$r)) {
 	    header('Content-type: image/png');
     	readfile('error.png');
     	exit;
     } 
     
-    $type = strtolower($r[1])==='jpg' ? 'jpeg' : strtolower($r[1]);
+    $type = strtolower($r[2])==='jpg' ? 'jpeg' : strtolower($r[2]);
     header('Content-type: image/'.$type);
     
     if (is_file($thumb) && filemtime($thumb)>filemtime($file)) {
     	readfile('thumb/' . $name);
     	exit;		    	
 	}
-    
+
+    if (!is_dir(dirname($thumb))) {
+        mkdir(dirname($thumb),0777, true);
+    }
+
 	$tng = new ThumbnailGenerator($file,$thumb,1440/4,900/4,$type,60);
 	$result = $tng->letterBox();
 	
