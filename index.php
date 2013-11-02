@@ -8,6 +8,9 @@
 	$title = "Connected Digital Photo Frame";
     $list = isset($_REQUEST['list']) ? $_REQUEST['list'] : '1';
 
+    $thumbWidth = 1440/4;
+    $thumbHeight = 900/4;
+
     $count = 1;
     $selected = 1;
 
@@ -189,7 +192,9 @@
 		'ui' => !$fromPi,
         'albumCount' => $count,
         'albumSelected' => $selected,
-        'list' => $list
+        'list' => $list,
+        'thumbWidth' => $thumbWidth,
+        'thumbHeight' => $thumbHeight
 	));
 
 ?>

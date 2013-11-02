@@ -6,7 +6,8 @@
 			@import url(style.css);
 		</style>
 		<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="lib/jquery.lazyload.min.js"></script>
 	</head>
 	<body>
 		<script>
@@ -110,7 +111,13 @@
                                 <button class="rotate" data-dir="right" data-image="{{ i }}/{{ name|e('html_attr') }}">Rotate Right</button>
                                 <button class="rotate" data-dir="left" data-image="{{ i }}/{{ name|e('html_attr') }}">Rotate Left</button>
                             </div>
-                            <div class='image'><img class='thumbnail' src='thumb.php?name={{ i }}/{{ name|e('html_attr') }}'/></div>
+                            <div class='image'>
+                                {% if loop.index<5 %}
+                                    <img class='thumbnail' src='thumb.php?name={{ i }}/{{ name|e('html_attr') }}' width="{{ thumbWidth }}" height="{{ thumbHeight }}"/>
+                                {% else %}
+                                    <img class='thumbnail lazy' src='placeholder.png' data-original='thumb.php?name={{ i }}/{{ name|e('html_attr') }}' width="{{ thumbWidth }}" height="{{ thumbHeight }}"/>
+                                {% endif %}
+                            </div>
                             <div class='info'></div>
                         </div>
                     </div>
@@ -134,5 +141,7 @@
 		</div>
 
 	</body>
-	
+	<script>
+        $('.lazy').lazyload({effect : "fadeIn"})
+	</script>
 </html>
