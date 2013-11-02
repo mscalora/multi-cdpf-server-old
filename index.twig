@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CDPF</title>
+		<style>
+			@import url(style.css);
+		</style>
+		<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<script>
+			$(function(){
+				$("img").one('load', function() {
+					$(this).parents('.row').find('.info').text(''+this.naturalWidth+' x '+this.naturalHeight);
+				}).each(function() {
+					if(this.complete) $(this).load();
+				});
+
+			});
+
+			$('body').on('click','button.delete',function(e){
+				var answer = confirm("Are you sure you want to delete this photo?");
+				if (answer) {
+					var form = $('#delete').css('display','block');
+					form.find('input:hidden').val($(this).attr('data-image'));
+					form.submit();
+				}
+			});
+
+            function initAlbum(album) {
+
+            }
+
+            $(document).on('click','.albumButton',function(){
+                $('.albumButton.selected').removeClass('selected');
+                var album = $(this).addClass('selected').attr('data-album-num');
+                $('#album'+album).show().siblings().hide();
+                $('input[name=the-album]').val(album);
+                localStorage.selectedAlbum = album;
+                return false;
+            });
+
+			$(function(){
+				if (localStorage!==undefined) {
+					if (localStorage.selectedAlbum!==undefined) {
+						var albumButton = $('.albumButton[data-album-num='+localStorage.selectedAlbum.replace(/\D/g,'')+']');
+						albumButton.click();
+					}
+				} else {
+					localStorage = { selectedAlbum: {{ albumSelected }} };
+				}
+			});
+
+        </script>
+	
+        <div class='title'>{{ title|e }}</div>
+
+        <div id='upload'>
+            <div class='subtitle'>{{ message|e }}</div>
+            <form method="post" enctype="multipart/form-data">
+                <div>
+                    <div class='section'>
+                        Upload: <input type='file' name='the-file' value="Choose Photo"/>
+                        <input type='hidden' name='the-album' value="{{ albumSelected }}"/>
+                    </div>
+                </div>
+                <div>
+                    <div class='section'>
+                        <input type='submit' name='submit' value='Upload'/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class='albums'>
+            {% for i in range( 1 , albumCount ) %}
+            <div class="albumButton {% if albumSelected == i %}selected{% endif %}" data-album-num="{{ i }}" >{{ i }}</div>
+            {% endfor %}
+        </div>
+
+        <div id='photos'>
+        {% for i in range(1,albumCount) %}
+            <div class='album' id="album{{  i  }}" {% if albumSelected != i %}style='display: none;'{% endif %} >
+                <div class='subtitle'>Album {{  i  }}</div>
+
+                {% for name in images[i] %}
+                    <div>
+                        <div class="row">
+                            <div class='name'>
+                                {{ name|e }}
+                                <button class="delete" data-image="{{ name|e('html_attr') }}">Delete</button>
+                            </div>
+                            <div class='image'><img src='/sync/{{ i }}/{{ name|e('html_attr') }}'/></div>
+                            <div class='info'></div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class='message'>No photos to display</div>
+                {% endfor %}
+            </div>
+		{% endfor %}
+        </div>
+
+		<div id='footer'>
+			<form id='logout' method='post'>
+				<input type='submit' name='logout' value='Logout'/>
+			</form>
+		</div>
+
+		<div style='display:none;'>
+			<form id='delete' method='post'>
+				<input type='hidden' name='delete-image' value=''/>
+			</form>
+		</div>
+
+	</body>
+	
+</html>

@@ -1,0 +1,84 @@
+	@import url(http://fonts.googleapis.com/css?family=Oxygen);
+	img { 
+		max-width: 400px; 
+		max-height: 350px; 
+	}
+	div.image, div.controls { 
+		display: inline-block; 
+		vertical-align: middle; 
+	}
+	
+	h2 {
+		text-align: center;
+	}
+	body {
+		margin: 0;
+		padding: 0 30px;
+		background: rgb(230, 253, 223);
+		font-family: Oxygen, Verdana, Arial, sans-serif;
+	}
+	#upload, #photos, #footer, #login, .albums {
+		text-align: center;
+		background: rgb(202, 253, 186);
+		margin: 10px auto;
+		border-radius: 12px;
+		padding: 10px;
+		max-width: 900px;
+		min-width: 400px;
+	}
+    .albumButton.selected, .albumButton.selected:hover  {
+        background: #35991E;
+        color: white;
+    }
+    .albumButton:hover {
+        background: #bcf4af;
+    }
+    .albumButton {
+        cursor: pointer;
+        display: inline-block;
+        min-width: 36px;
+        background: #B2EAA5;
+        padding: 3px;
+        border: 1px solid #004d00;
+        border-radius: 8px;
+    }
+	body.setup {
+		background: rgb(230, 223, 253);
+	}
+	body.setup #login {
+		background: rgb(202, 186, 253);
+	}
+	.section, .row {
+		display: inline-block;
+	}
+	.row {
+		margin: 0 0 20px 0;
+	}
+	.name {
+		margin: 0 0 10px 0;
+	}
+	.info {
+		margin: -4px 0 4px 0;
+		font-size: 80%;
+		font-style: italic;
+		opacity: 0.75;
+	}
+	.title {
+		font-size: 135%;
+		text-align: center;
+		margin: 10px 0;
+		font-weight: 800;
+	}
+	.subtitle {
+		font-size: 125%;
+		text-align: center;
+		margin: 10px 0;
+		font-weight: 600;
+	}
+	.prompt {
+		font-size: 120%;
+		margin-bottom: 10px;
+	}
+	.message {
+		font-style: italic;
+	}	

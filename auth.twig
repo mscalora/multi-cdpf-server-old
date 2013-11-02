@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CDPF</title>
+		<style>
+			@import url(style.css);
+		</style>
+	</head>
+	<body class="{% if setup %}setup{% else %}login{% endif %}">
+	
+		<div class='title'>{{ title|e }}</div>
+		
+		<div id='login'>
+			<form id='logout' method='post'>
+				<div class='prompt'>{{ prompt|e }}</div>
+				<div>Password: <input autofocus="1" minlength="6" type='password' name='secret' /></div>
+				{% if setup %}
+					<div><input type='submit' name='setup' value='Set Password'/></div>
+				{% else %}
+					<div><input type='submit' name='login' value='Login'/></div>
+				{% endif %}
+			</form>
+		</div>
+		
+	</body>
+	
+</html>

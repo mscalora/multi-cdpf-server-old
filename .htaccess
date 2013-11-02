@@ -1,0 +1,11 @@
+# Use PHP5.4 as default
+#AddHandler application/x-httpd-php54 .php
+RewriteEngine on
+RewriteRule ^sync$ /sync/ [QSA,R]
+RewriteRule ^sync/([0-9]+)/([^/]+[.](jpeg|jpg|png|gif))$ /index.php?f=$1/$2 [QSA,L,NC]
+RewriteRule ^([0-9]+)$ /$1/ [R,QSA,L,NC]
+RewriteRule ^([0-9]+)/$ /index.php?list=$1 [QSA,L,NC]
+RewriteRule ^([0-9]+)/([^/]+[.](jpeg|jpg|png|gif))$ /index.php?f=$1/$2 [QSA,L,NC]
+RewriteRule ^sync/$ /index.php?list=1 [QSA,L]
+
+
