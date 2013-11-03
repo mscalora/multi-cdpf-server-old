@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html class="{{ htmlClasses }}" data-detection="{{ htmlClasses }}">
 	<head>
 		<title>CDPF</title>
 		<style>
 			@import url(style.css);
 		</style>
+        <meta name="viewport" content="width=device-width">
 		<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.js"></script>
         <script src="lib/jquery.lazyload.min.js"></script>
         <script src="lib/jquery.autosize.min.js"></script>
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-darkness/jquery-ui.css" rel="stylesheet" type="text/css" />
+        {% include 'lib/mobile-rotation-script.twig' %}
 	</head>
 	<body>
 		<script>
@@ -74,9 +75,8 @@
                         }
                     });
                 }
-                $('#cover').css('display','none');
-                row.find('textarea.caption').remove();
-                row.find('.controls').remove();
+                row.find('form.caption-edit').remove();
+                $('#cover').hide();
                 return false;
             }
 
@@ -84,17 +84,18 @@
                 row.find('.container').css('z-index','auto');
                 var div = row.find('div.caption');
                 div.closest('.container').css('z-index',10500);
+                var form = $('<form class="caption-edit">').insertAfter(div);
                 var textarea = $('<textarea class="caption">').css({
                     'font-family': div.css('font-family'),
                     'font-style': div.css('font-style'),
                     'font-size': div.css('font-size'),
                     'text-align': div.css('text-align'),
                     'height':22
-                }).insertAfter(div).autosize().val(row.find('button.edit').attr('data-caption')).trigger('autosize.resize');
-                $('<div class="controls"><button class="cancel">Cancel</button> <button class="save">Save</button></div>')
-                .insertAfter(textarea);
+                }).appendTo(form).autosize().val(row.find('button.edit').attr('data-caption')).trigger('autosize.resize');
+                $('<div class="controls"><button class="cancel">Cancel</button> <button type="submit" class="save">Save</button></div>')
+                .appendTo(form);
                 textarea.trigger('focus');
-                $('#cover').css('display','block');
+                $('#cover').show();
                 return false;
             }
 
@@ -112,6 +113,8 @@
             });
 
             $('body').on('click','button.save',function(e){
+                return endEdit($(this).closest('.row'),true);
+            }).on('submit','form.caption-edit',function(e){
                 return endEdit($(this).closest('.row'),true);
             });
 
@@ -174,11 +177,13 @@
                     <div>
                         <div class="row">
                             <div class='name'>
-                                {{ item.name|e }}
-                                <button class="delete" data-image="{{ i }}/{{ item.name|e('html_attr') }}">Delete</button>
-                                <button class="rotate" data-dir="left" data-image="{{ i }}/{{ item.name|e('html_attr') }}">&#x21BA;</button>
-                                <button class="rotate" data-dir="right" data-image="{{ i }}/{{ item.name|e('html_attr') }}">&#x21BB;</button>
-                                <button class="edit" data-image="{{ i }}/{{ item.name|e('html_attr') }}" data-caption="{{ item.caption }}">Edit Caption</button>
+                                <span>{{ item.name|e }}</span>
+                                <span>
+                                    <button class="delete" data-image="{{ i }}/{{ item.name|e('html_attr') }}">Delete</button>
+                                    <button class="rotate" data-dir="left" data-image="{{ i }}/{{ item.name|e('html_attr') }}">&#x21BA;</button>
+                                    <button class="rotate" data-dir="right" data-image="{{ i }}/{{ item.name|e('html_attr') }}">&#x21BB;</button>
+                                    <button class="edit" data-image="{{ i }}/{{ item.name|e('html_attr') }}" data-caption="{{ item.caption }}">Edit Caption</button>
+                                </span>
                             </div>
                             <div class='image'>
                                 <div class='container'>

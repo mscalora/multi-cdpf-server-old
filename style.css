@@ -1,9 +1,25 @@
 	@import url(http://fonts.googleapis.com/css?family=Oxygen);
-	img { 
-		max-width: 400px; 
-		max-height: 350px; 
-	}
-	div.image, div.controls { 
+
+
+    .ismobile body {
+        padding: 0;
+    }
+    .ismobile #upload, .ismobile #photos, .ismobile #footer, .ismobile #login, .ismobile .albums {
+        min-height: 0;
+        min-width: 0;
+        padding: 0;
+    }
+
+    img {
+        max-width: 400px;
+        max-height: 350px;
+    }
+
+    .ismobile img {
+        max-width: 100%;
+    }
+
+	div.image, div.controls {
 		display: inline-block; 
 		vertical-align: middle; 
 	}
@@ -57,6 +73,9 @@
 	.name {
 		margin: 0 0 10px 0;
 	}
+    .name span {
+        white-space: nowrap;
+    }
 	.info {
 		margin: 0 0 4px 0;
 		font-size: 80%;
@@ -124,6 +143,9 @@
         padding: 6px;
         z-index: 10100;
     }
+    .ismobile .controls button {
+        zoom: 1.3;
+    }
     #cover {
         background: black;
         opacity: 0.8;
@@ -135,4 +157,11 @@
         position: fixed;
         display: none;
 
+    }
+    .ismobile #cover {
+        position: absolute;
+    }
+
+    .ismobile .name button {
+        zoom: 1.3;
     }

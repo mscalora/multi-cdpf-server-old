@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html class="{{ htmlClasses }}">
 	<head>
 		<title>CDPF</title>
+        <meta name="viewport" content="width=device-width">
 		<style>
 			@import url(style.css);
 		</style>
+        {% include 'lib/mobile-rotation-script.twig' %}
 	</head>
 	<body class="{% if setup %}setup{% else %}login{% endif %}">
 	
@@ -21,7 +23,7 @@
 				{% endif %}
 			</form>
 		</div>
-		
-	</body>
+
+    </body>
 	
 </html>

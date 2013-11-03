@@ -1,4 +1,6 @@
 <?php
+    require_once('lib/Mobile_Detect.php');
+
 	$exiftool = trim(is_file('.exiftool_path') ?
 		file_get_contents('.exiftool_path') :
 		`which exiftool || which ~/localbin/exiftool || cat ~/.exiftool_path 2>/dev/null || find /usr/local -type file -name "exiftool" | head -n 1`);
@@ -53,7 +55,18 @@
 	require_once 'twig/lib/Twig/Autoloader.php';
 	Twig_Autoloader::register();
 	$twig = new Twig_Environment(new Twig_Loader_Filesystem('.'));
-	
+
+    $detect = new Mobile_Detect;
+    $htmlClasses =
+        ($detect->isMobile() ? "ismobile" : "isnotmobile") .
+        ($detect->isTablet() ? " istablet" : " isnottablet") .
+        ($detect->isiPhone() ? " isiphone" : "") .
+        ($detect->isiPad() ? " isipad" : "") .
+        ($detect->isiOS() ? " isios" : "") .
+        ($detect->isAndroidOS() ? " isandroid" : "") .
+        ($detect->isSafari() ? " issafari" : "") .
+        "";
+
 	if (!$fromPi) {
 		require("auth.php");
 	}
@@ -240,8 +253,9 @@
 			exit;
 		}
 	}
-	
+
 	echo $twig->render($fromPi ? 'list.twig' : 'index.twig', array(
+        'htmlClasses' => $htmlClasses,
 		'title' => $title,
 		'message' => $message,
 		'images' => $images,
