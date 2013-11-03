@@ -1,9 +1,11 @@
 <?php
-	//$dataDir = isset($_ENV['OPENSHIFT_DATA_DIR']) ? $_ENV['OPENSHIFT_DATA_DIR'] : (isset($_SERVER['OPENSHIFT_DATA_DIR']) ? $_SERVER['OPENSHIFT_DATA_DIR'] : ($_ENV["DOCUMENT_ROOT"]."/data/"));
-	$dataDir = "${_SERVER['DOCUMENT_ROOT']}/data/" ;
+	$exiftool = trim(is_file('.exiftool_path') ?
+		file_get_contents('.exiftool_path') :
+		`which exiftool || which ~/localbin/exiftool || cat ~/.exiftool_path 2>/dev/null || find /usr/local -type file -name "exiftool" | head -n 1`);
 
-    $exiftool = is_file('~/localbin/exiftool') ? '~/localbin/exiftool' :
-        (is_file('/usr/local/Cellar/exiftool/9.35/libexec/exiftool') ? '/usr/local/Cellar/exiftool/9.35/libexec/exiftool' : 'exiftool');
+	$dataDir = trim(is_file('.datadir_path') ?
+		file_get_contents('.datadir_path') :
+		"${_SERVER['DOCUMENT_ROOT']}/data/");
 
 	$fromPi = (isset($_REQUEST['list']) && count($_REQUEST)==1)
 		|| (isset($_SERVER["HTTP_USER_AGENT"]) && $_SERVER["HTTP_USER_AGENT"]=="CDPF")
@@ -21,6 +23,26 @@
         $count++;
     }
 
+	if (isset($_REQUEST["config"])) {
+		echo "<div class='division'>";
+		echo "<style> html { background: pink; } b { display: inline-block; margin: 0; padding: 0; text-weight: bold; min-width: 125px; font-family: monospace; } .division div { font-family: monospace; }</style>\n";
+		echo "<h2>CDPF Configuration</h2>\n";
+		echo "<div><b>exiftool</b>$exiftool</div>\n";
+		echo "<div><b>dataDir</b>$dataDir</div>\n";
+		echo "<div><b>fromPi</b>$fromPi</div>\n";
+		echo "<div><b>title</b>$title</div>\n";
+		echo "<div><b>thumbWidth</b>$thumbWidth</div>\n";
+		echo "<div><b>thumbHeight</b>$thumbHeight</div>\n";
+		echo "<div><b>album count</b>$count</div>\n";
+		echo "</div>";
+		echo "<div class='division'><h2>GLOBALS</h2>\n";
+		echo "<div style='white-space: pre; font-family: monospace; font-size: 120%;'>";
+		var_dump($GLOBALS);
+		echo "</div>";
+
+		exit;
+    }
+    
     if (isset($_REQUEST["count"])) {
         echo $count;
         exit;
