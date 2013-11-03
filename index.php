@@ -1,7 +1,10 @@
 <?php
 	//$dataDir = isset($_ENV['OPENSHIFT_DATA_DIR']) ? $_ENV['OPENSHIFT_DATA_DIR'] : (isset($_SERVER['OPENSHIFT_DATA_DIR']) ? $_SERVER['OPENSHIFT_DATA_DIR'] : ($_ENV["DOCUMENT_ROOT"]."/data/"));
 	$dataDir = "${_SERVER['DOCUMENT_ROOT']}/data/" ;
-	
+
+    $exiftool = is_file('~/localbin/exiftool') ? '~/localbin/exiftool' :
+        (is_file('/usr/local/Cellar/exiftool/9.35/libexec/exiftool') ? '/usr/local/Cellar/exiftool/9.35/libexec/exiftool' : 'exiftool');
+
 	$fromPi = (isset($_REQUEST['list']) && count($_REQUEST)==1)
 		|| (isset($_SERVER["HTTP_USER_AGENT"]) && $_SERVER["HTTP_USER_AGENT"]=="CDPF")
 		|| isset($_REQUEST["CDPF"]);
@@ -103,6 +106,27 @@
 		exit;
 	}
 
+    if (isset($_REQUEST['save'])) {
+        $caption = isset($_REQUEST['caption']) ? $_REQUEST['caption'] : "";
+        $image = isset($_REQUEST['image']) ? $_REQUEST['image'] : "";
+
+        $cmd = "$exiftool -UserComment=" . escapeshellarg($caption) . " " . escapeshellarg('data/' . $image) . " 2>&1";
+
+        $out = exec($cmd);
+
+        error_log("Modify Caption Operation for " . $image);
+        error_log("New caption: <" . $caption . ">");
+        error_log("Command: " . $cmd);
+        error_log("Output: " . $out);
+
+        $exif = exif_read_data('data/' . $image, 0, false);
+        $caption = isset($exif['COMPUTED']['UserComment']) ? $exif['COMPUTED']['UserComment'] : "";
+
+        print $caption;
+
+        exit;
+    }
+
     if (isset($_REQUEST['rotate'])) {
 
         $right = (isset($_REQUEST['dir']) && $_REQUEST['dir']=='left') ? false : true;
@@ -163,9 +187,19 @@
 
 	$images = array();
     foreach(range(1,$count) as $i) {
-        $images[$i] = @array_filter(@scandir($dataDir.$i.'/'),'isImageName');
+        $names = @array_filter(@scandir($dataDir.$i.'/'),'isImageName');
+        $album = array();
+        foreach($names as $name) {
+            $path = $dataDir.$i.'/'.$name;
+            $exif = exif_read_data($path, 0, false);
+            $album[] = array(
+                "caption" => (isset($exif['COMPUTED']['UserComment']) ? $exif['COMPUTED']['UserComment'] : ""),
+                "name" => $name,
+                "size" => getimagesize($path)
+            );
+        }
+        $images[$i] = $album;
     }
-
 
 	if (isset($_REQUEST['delete-image'])) {
 		$name = $_REQUEST['delete-image'];

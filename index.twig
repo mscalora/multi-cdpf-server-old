@@ -6,20 +6,15 @@
 			@import url(style.css);
 		</style>
 		<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.js"></script>
         <script src="lib/jquery.lazyload.min.js"></script>
+        <script src="lib/jquery.autosize.min.js"></script>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-darkness/jquery-ui.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<script>
-			$(function(){
-				$("img").one('load', function() {
-					$(this).parents('.row').find('.info').text(''+this.naturalWidth+' x '+this.naturalHeight);
-				}).each(function() {
-					if(this.complete) $(this).load();
-				});
-
-			});
-
 			$('body').on('click','button.delete',function(e){
 				var answer = confirm("Are you sure you want to delete this photo?");
 				if (answer) {
@@ -46,8 +41,81 @@
                 })
             });
 
-            function initAlbum(album) {
+            function endEdit(row,save) {
+                if (save===true) {
+                    var edit = row.find('button.edit');
+                    var textarea = row.find('textarea.caption');
+                    var newCaption = textarea.length ? textarea.val() : edit.attr('data-pending');
+                    var captionDiv = row.find('div.caption');
+                    var image = edit.attr('data-image');
+                    captionDiv.effect( "pulsate", {times:10}, 10000, function(){
+                        edit.removeAttr('data-pending');
+                        var answer = confirm('Error saving caption, try again?');
+                        if (answer) {
+                            endEdit(row,true);
+                        }
+                    });
+                    edit.attr('data-pending',newCaption);
+                    $.ajax({
+                        url: '?',
+                        data: { save: "1", caption: newCaption, image: image },
+                        success: function(data) {
+                            edit.removeAttr('data-pending');
+                            captionDiv.finish().fadeOut().text(data).fadeIn().effect("highlight");
+                            edit.attr('data-caption',newCaption);
+                        },
+                        error: function() {
+                            edit.removeAttr('data-pending');
+                            captionDiv.finish();
+                            var answer = confirm('Error saving caption, try again?');
+                            if (answer) {
+                                endEdit(row,true);
+                            }
+                        }
+                    });
+                }
+                $('#cover').css('display','none');
+                row.find('textarea.caption').remove();
+                row.find('.controls').remove();
+                return false;
+            }
 
+            function startEdit(row) {
+                row.find('.container').css('z-index','auto');
+                var div = row.find('div.caption');
+                div.closest('.container').css('z-index',10500);
+                var textarea = $('<textarea class="caption">').css({
+                    'font-family': div.css('font-family'),
+                    'font-style': div.css('font-style'),
+                    'font-size': div.css('font-size'),
+                    'text-align': div.css('text-align'),
+                    'height':22
+                }).insertAfter(div).autosize().val(row.find('button.edit').attr('data-caption')).trigger('autosize.resize');
+                $('<div class="controls"><button class="cancel">Cancel</button> <button class="save">Save</button></div>')
+                .insertAfter(textarea);
+                textarea.trigger('focus');
+                $('#cover').css('display','block');
+                return false;
+            }
+
+            $('body').on('click','button.edit, div.caption',function(e){
+                var row = $(this).closest('.row');
+                if (row.find('button.edit').attr('data-pending')) {
+                    alert('Save pending, try again later.');
+                    return false;
+                }
+                return startEdit(row);
+            });
+
+            $('body').on('click','button.cancel',function(e){
+                return endEdit($(this).closest('.row'),false);
+            });
+
+            $('body').on('click','button.save',function(e){
+                return endEdit($(this).closest('.row'),true);
+            });
+
+            function initAlbum(album) {
             }
 
             $(document).on('click','.albumButton',function(){
@@ -102,23 +170,27 @@
             <div class='album' id="album{{  i  }}" {% if albumSelected != i %}style='display: none;'{% endif %} >
                 <div class='subtitle'>Album {{  i  }}</div>
 
-                {% for name in images[i] %}
+                {% for item in images[i] %}
                     <div>
                         <div class="row">
                             <div class='name'>
-                                {{ name|e }}
-                                <button class="delete" data-image="{{ i }}/{{ name|e('html_attr') }}">Delete</button>
-                                <button class="rotate" data-dir="right" data-image="{{ i }}/{{ name|e('html_attr') }}">Rotate Right</button>
-                                <button class="rotate" data-dir="left" data-image="{{ i }}/{{ name|e('html_attr') }}">Rotate Left</button>
+                                {{ item.name|e }}
+                                <button class="delete" data-image="{{ i }}/{{ item.name|e('html_attr') }}">Delete</button>
+                                <button class="rotate" data-dir="left" data-image="{{ i }}/{{ item.name|e('html_attr') }}">&#x21BA;</button>
+                                <button class="rotate" data-dir="right" data-image="{{ i }}/{{ item.name|e('html_attr') }}">&#x21BB;</button>
+                                <button class="edit" data-image="{{ i }}/{{ item.name|e('html_attr') }}" data-caption="{{ item.caption }}">Edit Caption</button>
                             </div>
                             <div class='image'>
-                                {% if loop.index<5 %}
-                                    <img class='thumbnail' src='thumb.php?name={{ i }}/{{ name|e('html_attr') }}' width="{{ thumbWidth }}" height="{{ thumbHeight }}"/>
-                                {% else %}
-                                    <img class='thumbnail lazy' src='placeholder.png' data-original='thumb.php?name={{ i }}/{{ name|e('html_attr') }}' width="{{ thumbWidth }}" height="{{ thumbHeight }}"/>
-                                {% endif %}
+                                <div class='container'>
+                                    {% if loop.index<5 %}
+                                        <img class='thumbnail' src='thumb.php?name={{ i }}/{{ item.name|e('html_attr') }}' width="{{ thumbWidth }}" height="{{ thumbHeight }}"/>
+                                    {% else %}
+                                        <img class='thumbnail lazy' src='placeholder.png' data-original='thumb.php?name={{ i }}/{{ item.name|e('html_attr') }}' width="{{ thumbWidth }}" height="{{ thumbHeight }}"/>
+                                    {% endif %}
+                                    <div class='caption'>{{ item.caption }}</div>
+                                </div>
                             </div>
-                            <div class='info'></div>
+                            <div class='info'>{{ item.size[0] }} x {{ item.size[1] }}</div>
                         </div>
                     </div>
                 {% else %}
@@ -139,7 +211,7 @@
 				<input type='hidden' name='delete-image' value=''/>
 			</form>
 		</div>
-
+        <div id="cover"></div>
 	</body>
 	<script>
         $('.lazy').lazyload({effect : "fadeIn"})
