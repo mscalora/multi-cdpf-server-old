@@ -8,9 +8,9 @@
 		</style>
 	</head>
 	<body>
-		{% for name in images[list] %}
-				<div class='title'>{{ name|e }}</div>
-				<div><img src='{{ name|e('html_attr') }}'/></div>
+		{% for item in images[list] %}
+				<div class='title'>{{ item.name|e }}</div>
+				<div><img src='/{{ list }}/{{ item.name|e('html_attr') }}'/></div>
 		{% endfor %}
 	</body>
 </html>
