@@ -4,7 +4,7 @@
     .ismobile body {
         padding: 0;
     }
-    .ismobile #upload, .ismobile #photos, .ismobile #footer, .ismobile #login, .ismobile .albums {
+    .ismobile #upload, .ismobile #photos, .ismobile #footer, .ismobile #login, .ismobile .albums, .ismobile .title {
         min-height: 0;
         min-width: 0;
         padding: 0;
@@ -33,14 +33,16 @@
 		background: rgb(230, 253, 223);
 		font-family: Oxygen, Verdana, Arial, sans-serif;
 	}
-	#upload, #photos, #footer, #login, .albums {
+    #upload, #photos, #footer, #login, .albums, .title {
+        max-width: 900px;
+        min-width: 400px;
+    }
+    #upload, #photos, #footer, #login, .albums {
 		text-align: center;
 		background: rgb(202, 253, 186);
 		margin: 10px auto;
 		border-radius: 12px;
 		padding: 10px;
-		max-width: 900px;
-		min-width: 400px;
 	}
     .albumButton.selected, .albumButton.selected:hover  {
         background: #35991E;
@@ -54,14 +56,14 @@
         display: inline-block;
         min-width: 36px;
         background: #B2EAA5;
-        padding: 3px;
+        padding: 1px 4px;
         border: 1px solid #004d00;
         border-radius: 8px;
     }
-	body.setup {
+	.setup body {
 		background: rgb(230, 223, 253);
 	}
-	body.setup #login {
+	.setup #login {
 		background: rgb(202, 186, 253);
 	}
 	.section, .row {
@@ -164,4 +166,36 @@
 
     .ismobile .name button {
         zoom: 1.3;
+    }
+    #config textarea {
+        width: 100%;
+        min-height: 2in;
+        font-family: monospace;
+        font-size: 13px;
+    }
+    .message, .warning {
+        margin: 6px auto 12px auto;
+        max-width: 6in;
+    }
+
+    #uploadArea.uploading #uploadForm {
+        display: none;
+    }
+    #uploadArea #uploadProgress {
+        display: none;
+    }
+    #uploadArea.uploading #uploadProgress {
+        display: block;
+    }
+
+    .title {
+        position: relative;
+    }
+    #logouter {
+        vertical-align: top;
+    }
+    #pallet {
+        padding-top: 4px;
+        position: absolute;
+        right: 10px;
     }

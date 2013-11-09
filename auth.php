@@ -2,7 +2,7 @@
 	$authed = false;
 	$pwfile = "$dataDir.passwd";
 
-	if (!is_file("$pwfile")) {	
+    if (!is_file("$pwfile")) {
 		if (isset($_REQUEST['setup']) && isset($_REQUEST['secret']) && strlen($_REQUEST['secret'])>=6) {
 			$HASH = crypt($_REQUEST['secret']);
 			file_put_contents($pwfile,$HASH);
@@ -15,12 +15,10 @@
 			exit;		
 		}
 		
-		echo $twig->render('auth.twig', array(
-            'htmlClasses' => $htmlClasses,
-			'title' => $title . " - One Time Setup",
+		echo $twig->render('auth.twig', array_merge($twigData,array(
 			'prompt' => "Enter password of at least 6 characters to secure your site.",
 			'setup' => true
-		));
+		)));
 		exit;
 	}
 
@@ -37,7 +35,16 @@
 		header('Location: /');
 		exit;
 	} elseif (isset($_REQUEST['login']) && isset($_REQUEST['secret'])) {
-		if (crypt($_REQUEST['secret'],$PWHASH)==$PWHASH) {
+        if (isset($config['authHashes'])) {
+            foreach($config['authHashes'] as $hash) {
+                $secret = trim(isset($config['authCaseInsensitive'])?strtolower($_REQUEST['secret']):$_REQUEST['secret']);
+                if (crypt($secret,$hash)==$hash) {
+                    setcookie("ticket", $TOKEN, time()+(isset($config['authSeconds'])?$config['authSeconds']:60*60*24), "/");
+                    header('Location: /');
+                    exit;
+                }
+            }
+        } elseif (crypt($_REQUEST['secret'],$PWHASH)==$PWHASH) {
 			setcookie("ticket", $TOKEN, time()+60*60*24, "/");
 			header('Location: /');
 			exit;
@@ -54,12 +61,10 @@
 			exit;		
 		}
 		
-		echo $twig->render('auth.twig', array(
-            'htmlClasses' => $htmlClasses,
-			'title' => $title,
+		echo $twig->render('auth.twig', array_merge($twigData,array(
 			'prompt' => "Login",
 			'setup' => false
-		));
+		)));
 		exit;		
 	}
 

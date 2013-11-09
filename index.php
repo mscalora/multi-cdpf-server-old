@@ -1,10 +1,6 @@
 <?php
     require_once('lib/Mobile_Detect.php');
 
-	$exiftool = trim(is_file('.exiftool_path') ?
-		file_get_contents('.exiftool_path') :
-		`which exiftool || which ~/localbin/exiftool || cat ~/.exiftool_path 2>/dev/null || find /usr/local -type file -name "exiftool" | head -n 1`);
-
 	$dataDir = trim(is_file('.datadir_path') ?
 		file_get_contents('.datadir_path') :
 		"${_SERVER['DOCUMENT_ROOT']}/data/");
@@ -12,11 +8,7 @@
 	$fromPi = (isset($_REQUEST['list']) && count($_REQUEST)==1)
 		|| (isset($_SERVER["HTTP_USER_AGENT"]) && $_SERVER["HTTP_USER_AGENT"]=="CDPF")
 		|| isset($_REQUEST["CDPF"]);
-	$title = "Connected Digital Photo Frame";
     $list = isset($_REQUEST['list']) ? $_REQUEST['list'] : '1';
-
-    $thumbWidth = 1440/4;
-    $thumbHeight = 900/4;
 
     $count = 1;
     $selected = 1;
@@ -25,17 +17,54 @@
         $count++;
     }
 
-	if (isset($_REQUEST["config"])) {
+    $configDir = "${dataDir}";
+    $configFile = "${configDir}cdpf.ini";
+    $configDefaults = array(
+        "title" => "Connected Digital Photo Frame",
+        "thumbWidth" => 1440/4,
+        "thumbHeight" => 900/4,
+        "albumNames" => array()
+    );
+    if (is_file($configFile)) {
+        $config =  array_merge($configDefaults,parse_ini_file($configFile));
+    }
+    if (!isset($config) || $config===false) {
+        $config = $configDefaults;
+    }
+
+    $exiftool = isset($config['exiftoolPath']) ?
+        $config['exiftoolPath'] :
+            trim(is_file('.exiftool_path') ?
+            file_get_contents('.exiftool_path') :
+            `which exiftool || which ~/localbin/exiftool || cat ~/.exiftool_path 2>/dev/null || find /usr/local -type file -name "exiftool" | head -n 1`);
+
+    $twigData = array();
+    $twigKeys = array(
+        "title", "albumNames",
+        "thumbWidth", "thumbHeight",
+        "googleAnalyticsID",
+        "authImage", "authPrompt", "authLabel", "authHashes", "authCaseInsensitive",
+        "customCSS", "customJS"
+    );
+    foreach ($twigKeys as $key) {
+        if (isset($config[$key])) $twigData[$key] = $config[$key];
+    }
+
+//    $twigData['title'] = $config['title'];
+//    $twigData['thumbWidth'] = $config['thumbWidth'];
+//    $twigData['thumbHeight'] = $config['thumbHeight'];
+//    isset($config['googleAnalyticsID']) ? $twigData['googleAnalyticsID'] = $config['googleAnalyticsID'] : 0;
+
+	if (isset($_REQUEST["debug"])) {
 		echo "<div class='division'>";
 		echo "<style> html { background: pink; } b { display: inline-block; margin: 0; padding: 0; text-weight: bold; min-width: 125px; font-family: monospace; } .division div { font-family: monospace; }</style>\n";
 		echo "<h2>CDPF Configuration</h2>\n";
 		echo "<div><b>exiftool</b>$exiftool</div>\n";
 		echo "<div><b>dataDir</b>$dataDir</div>\n";
 		echo "<div><b>fromPi</b>$fromPi</div>\n";
-		echo "<div><b>title</b>$title</div>\n";
-		echo "<div><b>thumbWidth</b>$thumbWidth</div>\n";
-		echo "<div><b>thumbHeight</b>$thumbHeight</div>\n";
 		echo "<div><b>album count</b>$count</div>\n";
+        echo $_REQUEST["debug"]!=="" ? ("<div><b>config</b>${_REQUEST["config"]}</div>\n") : "";
+        echo $_REQUEST["debug"]!=="" ? ("<div><b>secret</b>".crypt($_REQUEST["config"])."</div>\n") : "";
 		echo "</div>";
 		echo "<div class='division'><h2>GLOBALS</h2>\n";
 		echo "<div style='white-space: pre; font-family: monospace; font-size: 120%;'>";
@@ -66,12 +95,19 @@
         ($detect->isAndroidOS() ? " isandroid" : "") .
         ($detect->isSafari() ? " issafari" : "") .
         "";
+    $twigData['htmlClasses'] = $htmlClasses;
+
 
 	if (!$fromPi) {
 		require("auth.php");
 	}
-	
-	// test for image file names
+
+    if (isset($_REQUEST["save-config"]) || isset($_REQUEST["config"])) {
+        require("config.php");
+        exit;
+    }
+
+    // test for image file names
 	function isImageName($name) {
         global $dataDir;
         // abs path case
@@ -194,8 +230,18 @@
     }
 
 	$message = "";
-	
-	if (isset($_REQUEST['submit']) && isset($_FILES["the-file"])) {
+
+    function getImageData($path,$name) {
+        $exif = exif_read_data($path, 0, false);
+        return array(
+            "caption" => (isset($exif['COMPUTED']['UserComment']) ? $exif['COMPUTED']['UserComment'] : ""),
+            "name" => $name,
+            "size" => getimagesize($path)
+        );
+    }
+
+
+    if (isset($_REQUEST['upload-submit']) && isset($_FILES["the-file"])) {
 	
 		$file = $_FILES["the-file"];
 		$message = "Missing or illegal file name!";
@@ -210,13 +256,32 @@
                 if (!is_dir($dataDir.$album)) {
                     mkdir($dataDir.$album);
                 }
-                $result = move_uploaded_file($file["tmp_name"],$dataDir.$album .'/'.$name);
-                $message = $result ? "The photo $name has been uploaded" :
-                    "Error receiving the file: $name";
-            }
+                $i = 1;
+                $suffix = "";
+                do {
+                    $newName = preg_replace('/^(.*)\.([^.]*)$/',"$1$suffix.$2",$name);
+                    $path = "$dataDir$album/$newName";
+                    $i++;
+                    $suffix = "_$i";
+                } while(is_file($path));
 
+                $name = $newName;
+                $result = move_uploaded_file($file["tmp_name"],$path);
+
+                if ($result) {
+                    $message = "The photo $name has been uploaded";
+                    echo $twig->render('image.twig', array_merge($twigData,array(
+                        'ajaxMessage' => $message,
+                        'item' => getImageData($path,$name),
+                        'i' => $album,
+                    )));
+                    exit;
+                } else {
+                    $message = "Error receiving the file: $name";
+                }
+            }
 		}
-		header('Location: /');
+        echo "<div class='message error'>".htmlentities($message)."</div>";
 		exit;
 	}
 
@@ -226,12 +291,7 @@
         $album = array();
         foreach($names as $name) {
             $path = $dataDir.$i.'/'.$name;
-            $exif = exif_read_data($path, 0, false);
-            $album[] = array(
-                "caption" => (isset($exif['COMPUTED']['UserComment']) ? $exif['COMPUTED']['UserComment'] : ""),
-                "name" => $name,
-                "size" => getimagesize($path)
-            );
+            $album[] = getImageData($path,$name);
         }
         $images[$i] = $album;
     }
@@ -254,17 +314,13 @@
 		}
 	}
 
-	echo $twig->render($fromPi ? 'list.twig' : 'index.twig', array(
-        'htmlClasses' => $htmlClasses,
-		'title' => $title,
-		'message' => $message,
+	echo $twig->render($fromPi ? 'list.twig' : 'index.twig', array_merge($twigData,array(
+        'message' => $message,
 		'images' => $images,
 		'ui' => !$fromPi,
         'albumCount' => $count,
         'albumSelected' => $selected,
         'list' => $list,
-        'thumbWidth' => $thumbWidth,
-        'thumbHeight' => $thumbHeight
-	));
+	)));
 
 ?>
