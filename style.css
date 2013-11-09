@@ -1,6 +1,5 @@
 	@import url(http://fonts.googleapis.com/css?family=Oxygen);
 
-
     .ismobile body {
         padding: 0;
     }
@@ -87,7 +86,7 @@
 	.title {
 		font-size: 135%;
 		text-align: center;
-		margin: 10px 0;
+		margin: 10px auto;
 		font-weight: 800;
 	}
 	.subtitle {
@@ -195,7 +194,7 @@
         vertical-align: top;
     }
     #pallet {
-        padding-top: 4px;
+        padding-top: 3px;
         position: absolute;
         right: 10px;
     }

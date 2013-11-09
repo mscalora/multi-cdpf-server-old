@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af9cfdba-cfda-4dde-b481-dcb332026493" name="Default" comment="Fixed sync view ( list= ) template broken because of change from array of name to array of prop bags.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/busy.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/analytics.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/image.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jquery.upload-1.0.2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jquery.upload-1.0.2.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/auth.php" afterPath="$PROJECT_DIR$/auth.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/auth.twig" afterPath="$PROJECT_DIR$/auth.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.twig" afterPath="$PROJECT_DIR$/index.twig" />
+    <list default="true" id="af9cfdba-cfda-4dde-b481-dcb332026493" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/style.css" afterPath="$PROJECT_DIR$/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -36,7 +25,17 @@
     <favorites_list name="multi-cdpf-server" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="196" column="22" selection-start="3810" selection-end="3810" vertical-scroll-proportion="0.7180451" vertical-offset="2558" max-vertical-offset="3090">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -66,10 +65,10 @@
         <option value="$PROJECT_DIR$/config.twig" />
         <option value="$PROJECT_DIR$/image.twig" />
         <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/style.css" />
         <option value="$PROJECT_DIR$/lib/jquery.upload-1.0.2.min.js" />
         <option value="$PROJECT_DIR$/lib/jquery.upload-1.0.2.js" />
         <option value="$PROJECT_DIR$/index.twig" />
+        <option value="$PROJECT_DIR$/style.css" />
       </list>
     </option>
   </component>
@@ -271,7 +270,11 @@
       <created>1383525180622</created>
       <updated>1383525180622</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added lots of new features including debug mode, config with admin mode, upload progress, custom JS and custom CSS">
+      <created>1384015231411</created>
+      <updated>1384015231411</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -311,14 +314,15 @@
     <MESSAGE value="Added caption editing&#10;Fixed photo size display" />
     <MESSAGE value="Adding missing autosize plugin" />
     <MESSAGE value="Fixed sync view ( list= ) template broken because of change from array of name to array of prop bags." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed sync view ( list= ) template broken because of change from array of name to array of prop bags." />
+    <MESSAGE value="Added lots of new features including debug mode, config with admin mode, upload progress, custom JS and custom CSS" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added lots of new features including debug mode, config with admin mode, upload progress, custom JS and custom CSS" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/index.php</url>
-          <line>246</line>
+          <line>245</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
@@ -408,18 +412,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="22" selection-start="1275" selection-end="1275" vertical-scroll-proportion="0.65601504" vertical-offset="521" max-vertical-offset="3105">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="319" column="28" selection-start="10820" selection-end="10820" vertical-scroll-proportion="0.5866142" vertical-offset="4487" max-vertical-offset="4995">
           <folding>
-            <marker date="1383958032000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1384015230000" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -456,6 +453,13 @@
             <element signature="n#style#0;n#textarea#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="196" column="22" selection-start="3810" selection-end="3810" vertical-scroll-proportion="0.7180451" vertical-offset="2558" max-vertical-offset="3090">
+          <folding />
         </state>
       </provider>
     </entry>
