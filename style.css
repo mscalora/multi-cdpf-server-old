@@ -198,3 +198,15 @@
         position: absolute;
         right: 10px;
     }
+
+    #remote {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 1px;
+        height: 1px;
+    }
+    #remote img {
+        width: 32px;
+        height: 32px;
+    }

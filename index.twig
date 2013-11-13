@@ -4,7 +4,7 @@
 		<title>CDPF</title>
         <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-darkness/jquery-ui.css" rel="stylesheet" type="text/css" />
 		<style>
-			@import url(style.css);
+			@import url(style.css?ts={{ filetimestamp("style.css") }});
             {% if customCSS %}
             @import url({{ customCSS }});
             {% endif %}
@@ -149,13 +149,41 @@
 			});
 
         </script>
-	
+
         <div class='title'>
             <div id="pallet">
                 <form id='logout' method='post'>
                     <input id='logouter' type='submit' name='logout' value='Logout'/>
                 </form>
             </div>
+            {% if ip %}
+            <div id="remote">
+                <a href="http://{{ ip }}"/>
+                    <img />
+                </a>
+            </div>
+            <script>
+                var remoteTimer = setTimeout(function(){
+                    console.log('timer');
+                    var img = $('#remote img');
+                    if (img.naturalWidth) {
+                        $('#remote').css('height',this.naturalHeight).css('width',this.naturalWidth);
+                    } else {
+                        $('#remote').remove();
+                    }
+                },2500);
+                $('#remote img').on('load',function(){
+                    console.log('load');
+                    clearTimeout(remoteTimer);
+                    $('#remote').css('height',this.naturalHeight).css('width',this.naturalWidth);
+                }).on('error',function(){
+                    console.log('error');
+                    clearTimeout(remoteTimer);
+                    $('#remote').remove();
+                }).attr('src','http://{{ ip }}/remote.png');
+            </script>
+
+            {% endif %}
             {{ title|e }}
         </div>
 
@@ -225,7 +253,7 @@
     {% if customJS %}
         <script src="{{ customJS }}"></script>
     {% endif %}
-
+    <script src="home.js?ts={{ filetimestamp("home.js") }}"></script>
     <script type="text/javascript">
         $('#file1').change(function() {
             $(this).upload2(

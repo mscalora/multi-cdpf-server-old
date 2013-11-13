@@ -17,6 +17,8 @@
         $count++;
     }
 
+    $ipmapPath = "${dataDir}ipmap.txt";
+
     $configDir = "${dataDir}";
     $configFile = "${configDir}cdpf.ini";
     $configDefaults = array(
@@ -50,6 +52,7 @@
         if (isset($config[$key])) $twigData[$key] = $config[$key];
     }
 
+
 //    $twigData['title'] = $config['title'];
 //    $twigData['thumbWidth'] = $config['thumbWidth'];
 //    $twigData['thumbHeight'] = $config['thumbHeight'];
@@ -76,6 +79,18 @@
     
     if (isset($_REQUEST["count"])) {
         echo $count;
+        if (isset($_REQUEST["ip"])) {
+            $ip = $_REQUEST["ip"];
+            if (preg_match('/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/',$ip)==1) {
+                $map = @unserialize(@file_get_contents($ipmapPath));
+                $map = is_array($map) ? $map : array();
+                $map['latest'] = $ip;
+                if (isset($_SERVER["REMOTE_ADDR"])) {
+                    $map[$_SERVER["REMOTE_ADDR"]] = $ip;
+                }
+                file_put_contents($ipmapPath,serialize($map));
+            }
+        }
         exit;
     }
 
@@ -84,6 +99,11 @@
 	require_once 'twig/lib/Twig/Autoloader.php';
 	Twig_Autoloader::register();
 	$twig = new Twig_Environment(new Twig_Loader_Filesystem('.'));
+
+    $function = new Twig_SimpleFunction('filetimestamp', function ($file) {
+        return "".filemtime($file);
+    }, array('is_safe' => array('html')));
+    $twig->addFunction($function);
 
     $detect = new Mobile_Detect;
     $htmlClasses =
@@ -314,6 +334,13 @@
 		}
 	}
 
+    $ip = false;
+    $map = @unserialize(@file_get_contents($ipmapPath));
+    if (is_array($map)) {
+        $remote = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : 'latest';
+        $ip = isset($map[$remote]) ? $map[$remote] : $map['latest'];
+    }
+
 	echo $twig->render($fromPi ? 'list.twig' : 'index.twig', array_merge($twigData,array(
         'message' => $message,
 		'images' => $images,
@@ -321,6 +348,7 @@
         'albumCount' => $count,
         'albumSelected' => $selected,
         'list' => $list,
+        'ip' => $ip,
 	)));
 
 ?>

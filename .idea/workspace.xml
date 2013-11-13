@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af9cfdba-cfda-4dde-b481-dcb332026493" name="Default" comment="">
+    <list default="true" id="af9cfdba-cfda-4dde-b481-dcb332026493" name="Default" comment="Fixed upload add-in name">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/home.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.twig" afterPath="$PROJECT_DIR$/index.twig" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/style.css" afterPath="$PROJECT_DIR$/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -26,11 +29,64 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="196" column="22" selection-start="3810" selection-end="3810" vertical-scroll-proportion="0.7180451" vertical-offset="2558" max-vertical-offset="3090">
+            <state line="204" column="19" selection-start="3950" selection-end="3950" vertical-scroll-proportion="-17.08" vertical-offset="2633" max-vertical-offset="3255">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="90" column="44" selection-start="3468" selection-end="3468" vertical-scroll-proportion="-7.2083335" vertical-offset="1177" max-vertical-offset="5400">
+              <folding>
+                <marker date="1384312656000" expanded="true" signature="2804:2862" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.twig" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="172" column="0" selection-start="7396" selection-end="7396" vertical-scroll-proportion="-8.22449" vertical-offset="2177" max-vertical-offset="4275">
+              <folding>
+                <element signature="n#style#0;n#img#0;n#div#1;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ipmap.txt" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/data/ipmap.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="70" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/home.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="0" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jquery.upload-1.0.2.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/jquery.upload-1.0.2.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="14" selection-start="184" selection-end="184" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="2160">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -53,8 +109,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/lib/mobile-rotation-script.twig" />
-        <option value="$PROJECT_DIR$/list.twig" />
         <option value="$PROJECT_DIR$/analytics.twig.html" />
         <option value="$PROJECT_DIR$/analytics.twig" />
         <option value="$PROJECT_DIR$/auth.php" />
@@ -64,11 +118,13 @@
         <option value="$PROJECT_DIR$/config.php" />
         <option value="$PROJECT_DIR$/config.twig" />
         <option value="$PROJECT_DIR$/image.twig" />
-        <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/lib/jquery.upload-1.0.2.min.js" />
         <option value="$PROJECT_DIR$/lib/jquery.upload-1.0.2.js" />
-        <option value="$PROJECT_DIR$/index.twig" />
+        <option value="$PROJECT_DIR$/home.js" />
+        <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/style.css" />
+        <option value="$PROJECT_DIR$/index.twig" />
+        <option value="$PROJECT_DIR$/data/ipmap.txt" />
       </list>
     </option>
   </component>
@@ -156,7 +212,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
+              <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -274,12 +330,20 @@
       <created>1384015231411</created>
       <updated>1384015231411</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Style tweaks for logout button">
+      <created>1384021220718</created>
+      <updated>1384021220718</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixed upload add-in name">
+      <created>1384027224559</created>
+      <updated>1384027224559</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="265" y="58" width="1174" height="843" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -291,7 +355,7 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19250426" sideWeight="0.79946524" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19250426" sideWeight="0.79946524" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.056218058" sideWeight="0.79946524" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -315,14 +379,16 @@
     <MESSAGE value="Adding missing autosize plugin" />
     <MESSAGE value="Fixed sync view ( list= ) template broken because of change from array of name to array of prop bags." />
     <MESSAGE value="Added lots of new features including debug mode, config with admin mode, upload progress, custom JS and custom CSS" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added lots of new features including debug mode, config with admin mode, upload progress, custom JS and custom CSS" />
+    <MESSAGE value="Style tweaks for logout button" />
+    <MESSAGE value="Fixed upload add-in name" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed upload add-in name" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/index.php</url>
-          <line>245</line>
+          <line>265</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
@@ -330,22 +396,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/twig/lib/Twig/Error/Runtime.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="653">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auth.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="20" selection-start="0" selection-end="2059" vertical-scroll-proportion="-4.375" vertical-offset="0" max-vertical-offset="960">
-          <folding>
-            <marker date="1383747611000" expanded="true" signature="-1:-1" placeholder="{% if customCSS ...%}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/auth.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="0" selection-start="390" selection-end="566" vertical-scroll-proportion="-13.75" vertical-offset="0" max-vertical-offset="1170">
@@ -378,7 +428,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="11" selection-start="227" selection-end="227" vertical-scroll-proportion="0.16853933" vertical-offset="0" max-vertical-offset="534">
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -387,7 +437,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="534">
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -396,27 +446,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="3" selection-start="0" selection-end="9079" vertical-scroll-proportion="0.36516854" vertical-offset="0" max-vertical-offset="3675">
           <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="51" selection-start="892" selection-end="892" vertical-scroll-proportion="0.5" vertical-offset="0" max-vertical-offset="3855">
-          <folding>
-            <element signature="n#style#0;n#img#0;n#div#1;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="319" column="28" selection-start="10820" selection-end="10820" vertical-scroll-proportion="0.5866142" vertical-offset="4487" max-vertical-offset="4995">
-          <folding>
-            <marker date="1384015230000" expanded="true" signature="-1:-1" placeholder="..." />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -424,18 +454,7 @@
     <entry file="file://$PROJECT_DIR$/image.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="14" selection-start="782" selection-end="782" vertical-scroll-proportion="0.36585367" vertical-offset="0" max-vertical-offset="533">
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/jquery.upload-1.0.2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="14" selection-start="184" selection-end="184" vertical-scroll-proportion="0.21543986" vertical-offset="30" max-vertical-offset="2160">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -456,9 +475,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/jquery.upload-1.0.2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="14" selection-start="184" selection-end="184" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="2160">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/home.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="44" selection-start="3468" selection-end="3468" vertical-scroll-proportion="-7.2083335" vertical-offset="1177" max-vertical-offset="5400">
+          <folding>
+            <marker date="1384312656000" expanded="true" signature="2804:2862" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="196" column="22" selection-start="3810" selection-end="3810" vertical-scroll-proportion="0.7180451" vertical-offset="2558" max-vertical-offset="3090">
+        <state line="204" column="19" selection-start="3950" selection-end="3950" vertical-scroll-proportion="-17.08" vertical-offset="2633" max-vertical-offset="3255">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="172" column="0" selection-start="7396" selection-end="7396" vertical-scroll-proportion="-8.22449" vertical-offset="2177" max-vertical-offset="4275">
+          <folding>
+            <element signature="n#style#0;n#img#0;n#div#1;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/ipmap.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="70" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
           <folding />
         </state>
       </provider>
